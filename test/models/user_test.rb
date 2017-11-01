@@ -32,11 +32,19 @@ class UserTest < ActiveSupport::TestCase
     assert_not duplicate_user.valid?
   end
 
-  test "valid email adresses should be accepted" do
+  test "valid email addresses should be accepted" do
     valid_adresses = %w[user@example.com FOO@bar.com U-Ser@example.de]
     valid_adresses.each do |valid_address|
     @user.email = valid_address
     assert @user.valid?, "#{valid_address.inspect} should be valid"
+    end
+  end
+
+  test "invalid email addresses should be rejected" do
+    invalid_adresses = %w[user@example,com foo-at-bar.com]
+    invalid_adresses.each do |invalid_address|
+    @user.email = invalid_address
+    assert_not @user.valid?, "#{invalid_address.inspect} should be invalid"
     end
   end
 end
